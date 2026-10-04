@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="RF Toolbox: guías de diseño de antenas, filtros y radioenlaces, calculadoras de RF y biblioteca de lecturas." />
+  <title>RF Toolbox · Diseño y cálculo en radiofrecuencia</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="topbar">
+  <button class="menu-btn" id="menu-btn" aria-label="Abrir o cerrar el menú" aria-expanded="true" aria-controls="nav">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+  </button>
+  <a class="brand" href="#home"><span class="logo-badge">RF</span>RF Toolbox</a>
+  <span class="topbar-note">Diseño y cálculo en radiofrecuencia</span>
+</header>
+<div class="scrim" id="scrim"></div>
+<div class="shell">
+  <aside class="sidebar" id="nav">
+    <nav class="sidebar-inner" aria-label="Principal">
+      <a class="nav-link top" href="#home" data-target="home">Inicio</a>
+      <div class="nav-group open"><button class="nav-group-btn" aria-expanded="true">Guías de diseño<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="nav-sub"><div>
+          <div class="nav-group"><button class="nav-group-btn" aria-expanded="false">Antenas<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="nav-sub"><div><a class="nav-link" href="#antenas" data-target="antenas">Resumen</a><a class="nav-link" href="#ant-dipolo" data-target="ant-dipolo">Dipolo λ/2</a><a class="nav-link" href="#ant-monopolo" data-target="ant-monopolo">Monopolo λ/4</a><a class="nav-link" href="#ant-yagi" data-target="ant-yagi">Yagi-Uda</a><a class="nav-link" href="#ant-parche" data-target="ant-parche">Parche microstrip</a><a class="nav-link" href="#ant-helice" data-target="ant-helice">Helicoidal</a><a class="nav-link" href="#ant-parabola" data-target="ant-parabola">Parabólica</a></div></div></div>
+          <a class="nav-link" href="#filtros" data-target="filtros">Filtros</a>
+          <a class="nav-link" href="#radioenlace" data-target="radioenlace">Radioenlaces</a>
+        </div></div></div>
+      <div class="nav-group open"><button class="nav-group-btn" aria-expanded="true">Calculadoras<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="nav-sub"><div>
+          <a class="nav-link" href="#freq" data-target="freq">Longitud de onda</a>
+          <a class="nav-link" href="#vswr" data-target="vswr">VSWR / Return loss</a>
+          <a class="nav-link" href="#db" data-target="db">dB y potencia</a>
+          <a class="nav-link" href="#imp" data-target="imp">Impedancia</a>
+          <a class="nav-link" href="#noise" data-target="noise">Ruido y Friis</a>
+          <a class="nav-link" href="#vna" data-target="vna">Sweep de filtros</a>
+        </div></div></div>
+      <a class="nav-link top" href="#biblioteca" data-target="biblioteca">Biblioteca</a>
+    </nav>
+  </aside>
+  <main class="main">
+
+<div id="home" class="tool active">
+  <div class="hero">
+    <div>
+      <h1>Diseña, calcula y estudia radiofrecuencia en un solo lugar</h1>
+      <p>Guías paso a paso para antenas, filtros y radioenlaces, calculadoras que muestran la fórmula que usan y una biblioteca de lecturas para profundizar.</p>
+    </div>
+    <div class="scope">
+      <div class="scope-head"><span id="hero-band">VHF</span><b id="hero-f">—</b></div>
+      <svg viewBox="0 0 320 80" preserveAspectRatio="none" aria-hidden="true"><path id="hero-wave" fill="none" stroke="#f0b34a" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>
+      <input type="range" id="hero-slider" min="0" max="100" value="40" aria-label="Frecuencia de 10 MHz a 10 GHz">
+      <div class="scope-read"><div><span>Longitud de onda</span><b id="hero-l">—</b></div><div><span>Antena λ/4</span><b id="hero-q">—</b></div></div>
+    </div>
+  </div>
+  <div class="index">
+    <div><h2>Guías de diseño</h2>
+      <a href="#antenas"><strong>Antenas</strong><span>Dipolo, monopolo, Yagi y parche</span></a>
+      <a href="#filtros"><strong>Filtros</strong><span>Aproximaciones, orden y valores L y C</span></a>
+      <a href="#radioenlace"><strong>Radioenlaces</strong><span>Presupuesto de enlace y zona de Fresnel</span></a></div>
+    <div><h2>Calculadoras</h2>
+      <a href="#freq"><strong>Longitud de onda</strong><span>λ, λ/2, λ/4 y período</span></a>
+      <a href="#vswr"><strong>VSWR y return loss</strong><span>Conversión y potencia reflejada</span></a>
+      <a href="#db"><strong>dB y potencia</strong><span>dBm, mW, W y voltaje</span></a>
+      <a href="#imp"><strong>Impedancia</strong><span>Reflexión de Z = R + jX</span></a>
+      <a href="#noise"><strong>Ruido y Friis</strong><span>Figura de ruido de una cadena</span></a>
+      <a href="#vna"><strong>Sweep de filtros</strong><span>S21, S11 y VSWR vs frecuencia</span></a></div>
+    <div><h2>Biblioteca</h2>
+      <a href="#biblioteca"><strong>Lecturas</strong><span>Libros, notas de aplicación y normas para buscar por tema</span></a></div>
+  </div>
+</div>
+
+<div id="antenas" class="tool">
+  <div class="page-header"><h1 class="page-title">Diseño de antenas</h1><p class="page-desc">Una antena se diseña desde la frecuencia de trabajo: de ella salen las dimensiones físicas. Aquí está el método general; cada tipo de antena tiene su propia página con calculadora.</p></div>
+  <div class="card"><div class="card-title">Pasos de diseño</div>
+    <div class="prose"><ol>
+      <li><strong>Define los requisitos:</strong> banda de frecuencia, ganancia, polarización, patrón de radiación y espacio disponible.</li>
+      <li><strong>Elige el tipo de antena</strong> con la tabla de abajo.</li>
+      <li><strong>Calcula las dimensiones</strong> a partir de λ. El grosor del conductor y los efectos de borde obligan a acortar entre 2 % y 10 % (factor k).</li>
+      <li><strong>Construye un prototipo largo</strong> y recórtalo mientras mides S11 con un analizador de red.</li>
+      <li><strong>Verifica la adaptación:</strong> busca un VSWR menor que 2 (return loss mayor que 9.5 dB) en toda la banda.</li>
+      <li><strong>Mide el patrón y la ganancia</strong> en un entorno despejado, lejos de superficies metálicas.</li>
+    </ol></div>
+  </div>
+  <div class="card"><div class="card-title">Tipos de antena frecuentes</div><p class="verdict" style="margin:0 0 .75rem">Abre un tipo para ver sus características, su calculadora y sus pasos de diseño.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Tipo</th><th>Ganancia típica</th><th>Ancho de banda</th><th>Cuándo usarla</th></tr></thead>
+      <tbody>
+        <tr><td><a href="#ant-dipolo">Dipolo λ/2</a></td><td>2.15 dBi</td><td>Medio</td><td>Referencia, enlaces simples, radioafición</td></tr>
+        <tr><td><a href="#ant-monopolo">Monopolo λ/4</a></td><td>Hasta 5.15 dBi con plano de tierra ideal</td><td>Medio</td><td>Equipos móviles y portátiles</td></tr>
+        <tr><td><a href="#ant-yagi">Yagi-Uda</a></td><td>7 a 15 dBi</td><td>Angosto</td><td>Enlaces directivos y recepción de TV</td></tr>
+        <tr><td><a href="#ant-parche">Parche microstrip</a></td><td>5 a 8 dBi</td><td>1 % a 5 %</td><td>Placas impresas, Wi-Fi, GNSS</td></tr>
+        <tr><td><a href="#ant-helice">Helicoidal axial</a></td><td>10 a 15 dBi</td><td>Ancho</td><td>Polarización circular, satélites</td></tr>
+        <tr><td><a href="#ant-parabola">Parabólica</a></td><td>20 a 40 dBi o más</td><td>Ancho</td><td>Enlaces punto a punto de larga distancia</td></tr>
+      </tbody></table></div>
+  </div>
+</div>
+
+
+<div id="ant-dipolo" class="tool">
+  <a class="crumb" href="#antenas">← Todas las antenas</a>
+  <div class="page-header"><h1 class="page-title">Dipolo de media onda</h1><p class="page-desc">La antena resonante más simple: dos brazos iguales alimentados en el centro. Es la referencia para comparar las demás.</p></div>
+  <div class="card"><div class="card-title">Características</div><div class="results"><div class="result-card"><div class="result-label">Ganancia</div><div class="spec-value">2.15 dBi</div></div><div class="result-card"><div class="result-label">Impedancia</div><div class="spec-value">≈ 73 Ω</div></div><div class="result-card"><div class="result-label">Polarización</div><div class="spec-value">Lineal</div></div><div class="result-card"><div class="result-label">Patrón</div><div class="spec-value">Omnidireccional en el plano perpendicular al conductor</div></div><div class="result-card"><div class="result-label">Ancho de banda</div><div class="spec-value">Medio; crece con el grosor del conductor</div></div></div>
+    <div class="prose"><p style="margin-top:1rem">Cada brazo mide un cuarto de onda, así que la corriente es máxima en el centro y nula en las puntas. Radia con más fuerza perpendicular al conductor y casi nada hacia sus extremos.</p></div></div>
+  <div class="card"><div class="card-title">Calculadora</div><div class="two-col"><div class="field"><label for="a-dipolo-f">Frecuencia</label><div class="input-row"><input type="number" id="a-dipolo-f" value="145" step="any" min="0" oninput="calcAnt('dipolo')"><span class="badge">MHz</span></div></div><div class="field"><label for="a-dipolo-k">Factor de acortamiento k</label><div class="input-row"><input type="number" id="a-dipolo-k" value="0.95" step="any" min="0" oninput="calcAnt('dipolo')"><span class="badge">0.90 a 0.98</span></div></div></div>
+    <div class="results" id="a-dipolo-out"></div>
+    <div class="formula" data-latex="L = k\,\frac{c}{2f} \qquad L_{\mathrm{brazo}} = \frac{L}{2}"></div></div>
+  <div class="card"><div class="card-title">Pasos de diseño</div><div class="prose"><ol><li>Calcula la longitud total con la calculadora.</li><li>Corta los dos brazos iguales y un poco largos.</li><li>Alimenta en el centro con un balun 1:1 para que el coaxial no radie.</li><li>Mide S11. Si la resonancia queda por debajo de la frecuencia deseada, recorta ambos extremos por igual.</li><li>Instálalo con la misma polarización que el otro extremo del enlace.</li></ol>
+    <h3>Ten en cuenta</h3><ul><li>Un dipolo plegado sube la impedancia a ≈ 300 Ω y amplía el ancho de banda.</li><li>Cerca de estructuras metálicas la resonancia se desplaza.</li></ul></div></div>
+</div>
+<div id="ant-monopolo" class="tool">
+  <a class="crumb" href="#antenas">← Todas las antenas</a>
+  <div class="page-header"><h1 class="page-title">Monopolo de cuarto de onda</h1><p class="page-desc">Un brazo de λ/4 sobre un plano conductor. El plano actúa como espejo y aporta la mitad que falta del dipolo.</p></div>
+  <div class="card"><div class="card-title">Características</div><div class="results"><div class="result-card"><div class="result-label">Ganancia</div><div class="spec-value">Hasta 5.15 dBi con plano ideal</div></div><div class="result-card"><div class="result-label">Impedancia</div><div class="spec-value">≈ 36 Ω; ≈ 50 Ω con radiales a 45°</div></div><div class="result-card"><div class="result-label">Polarización</div><div class="spec-value">Lineal vertical</div></div><div class="result-card"><div class="result-label">Patrón</div><div class="spec-value">Omnidireccional en azimut</div></div><div class="result-card"><div class="result-label">Ancho de banda</div><div class="spec-value">Medio</div></div></div>
+    <div class="prose"><p style="margin-top:1rem">La imagen del brazo en el plano de tierra completa un dipolo de media onda. Por eso la calidad del plano determina la ganancia y la impedancia.</p></div></div>
+  <div class="card"><div class="card-title">Calculadora</div><div class="two-col"><div class="field"><label for="a-monopolo-f">Frecuencia</label><div class="input-row"><input type="number" id="a-monopolo-f" value="145" step="any" min="0" oninput="calcAnt('monopolo')"><span class="badge">MHz</span></div></div><div class="field"><label for="a-monopolo-k">Factor de acortamiento k</label><div class="input-row"><input type="number" id="a-monopolo-k" value="0.95" step="any" min="0" oninput="calcAnt('monopolo')"><span class="badge">0.90 a 0.98</span></div></div></div>
+    <div class="results" id="a-monopolo-out"></div>
+    <div class="formula" data-latex="h = k\,\frac{c}{4f} \qquad r_{\mathrm{plano}} \geq \frac{\lambda}{4}"></div></div>
+  <div class="card"><div class="card-title">Pasos de diseño</div><div class="prose"><ol><li>Calcula la altura del brazo con la calculadora.</li><li>Construye el plano: una placa metálica o al menos 4 radiales de ≈ λ/4 (8 es mejor).</li><li>Inclina los radiales entre 30° y 45° hacia abajo para acercar la impedancia a 50 Ω.</li><li>Conecta el vivo del coaxial al brazo y la malla al plano.</li><li>Mide S11 y recorta el brazo hasta centrar la resonancia.</li></ol>
+    <h3>Ten en cuenta</h3><ul><li>Con un plano pequeño baja la ganancia y el patrón se inclina hacia arriba.</li><li>En un vehículo, el techo hace de plano de tierra.</li></ul></div></div>
+</div>
+<div id="ant-yagi" class="tool">
+  <a class="crumb" href="#antenas">← Todas las antenas</a>
+  <div class="page-header"><h1 class="page-title">Antena Yagi-Uda</h1><p class="page-desc">Un elemento excitado con un reflector y varios directores. Concentra la radiación en una sola dirección.</p></div>
+  <div class="card"><div class="card-title">Características</div><div class="results"><div class="result-card"><div class="result-label">Ganancia</div><div class="spec-value">7 a 15 dBi</div></div><div class="result-card"><div class="result-label">Impedancia</div><div class="spec-value">20 a 30 Ω en el elemento excitado</div></div><div class="result-card"><div class="result-label">Polarización</div><div class="spec-value">Lineal</div></div><div class="result-card"><div class="result-label">Patrón</div><div class="spec-value">Directivo hacia los directores</div></div><div class="result-card"><div class="result-label">Ancho de banda</div><div class="spec-value">Angosto, de pocos por ciento</div></div></div>
+    <div class="prose"><p style="margin-top:1rem">Los elementos parásitos reciben energía del excitado y la reirradian con otra fase. El reflector, algo más largo, empuja la señal hacia delante; los directores, más cortos, la guían en esa dirección.</p></div></div>
+  <div class="card"><div class="card-title">Calculadora</div><div class="two-col"><div class="field"><label for="a-yagi-f">Frecuencia</label><div class="input-row"><input type="number" id="a-yagi-f" value="145" step="any" min="0" oninput="calcAnt('yagi')"><span class="badge">MHz</span></div></div><div class="field"><label for="a-yagi-n">Número de elementos</label><div class="input-row"><input type="number" id="a-yagi-n" value="5" step="any" min="0" oninput="calcAnt('yagi')"><span class="badge">3 a 20</span></div></div></div>
+    <div class="results" id="a-yagi-out"></div>
+    <div class="formula" data-latex="L_{\mathrm{ref}} \approx 0.495\lambda \quad L_{\mathrm{exc}} \approx 0.473\lambda \quad L_{\mathrm{dir}} \approx 0.44\lambda \quad S \approx 0.2\lambda"></div></div>
+  <div class="card"><div class="card-title">Pasos de diseño</div><div class="prose"><ol><li>Define la frecuencia y la ganancia que necesitas para elegir el número de elementos.</li><li>Calcula las longitudes iniciales con la calculadora.</li><li>Separa los elementos entre 0.2λ y 0.25λ.</li><li>Si los elementos cruzan un boom metálico, alárgalos unos milímetros; simula o mide para afinar.</li><li>Adapta a 50 Ω con gamma match, hairpin o un dipolo plegado.</li><li>Optimiza con un simulador (4nec2, NEC, openEMS) y mide S11.</li></ol>
+    <h3>Ten en cuenta</h3><ul><li>Los directores siguientes al primero suelen ser algo más cortos, cerca de 0.43λ.</li><li>Más elementos dan más ganancia, pero reducen el ancho de banda.</li><li>La calculadora da un punto de partida, no un diseño final. La ganancia es una estimación.</li></ul></div></div>
+</div>
+<div id="ant-parche" class="tool">
+  <a class="crumb" href="#antenas">← Todas las antenas</a>
+  <div class="page-header"><h1 class="page-title">Antena de parche microstrip</h1><p class="page-desc">Un rectángulo metálico sobre un sustrato con plano de tierra. Es plana, barata de fabricar en PCB y fácil de integrar.</p></div>
+  <div class="card"><div class="card-title">Características</div><div class="results"><div class="result-card"><div class="result-label">Ganancia</div><div class="spec-value">5 a 8 dBi</div></div><div class="result-card"><div class="result-label">Impedancia</div><div class="spec-value">Alta en el borde, baja hacia el centro</div></div><div class="result-card"><div class="result-label">Polarización</div><div class="spec-value">Lineal; circular con configuraciones especiales</div></div><div class="result-card"><div class="result-label">Patrón</div><div class="spec-value">Directivo, hacia un solo lado</div></div><div class="result-card"><div class="result-label">Ancho de banda</div><div class="spec-value">Angosto, 1 % a 5 %</div></div></div>
+    <div class="prose"><p style="margin-top:1rem">La cavidad entre el parche y el plano de tierra resuena cuando el largo L es casi media onda dentro del dieléctrico. La radiación sale por los dos bordes de ancho W.</p></div></div>
+  <div class="card"><div class="card-title">Calculadora</div><div class="two-col"><div class="field"><label for="a-parche-f">Frecuencia</label><div class="input-row"><input type="number" id="a-parche-f" value="2400" step="any" min="0" oninput="calcAnt('parche')"><span class="badge">MHz</span></div></div><div class="field"><label for="a-parche-er">Constante dieléctrica εᵣ</label><div class="input-row"><input type="number" id="a-parche-er" value="4.4" step="any" min="0" oninput="calcAnt('parche')"><span class="badge">sin unidad</span></div></div><div class="field"><label for="a-parche-h">Espesor del sustrato h</label><div class="input-row"><input type="number" id="a-parche-h" value="1.6" step="any" min="0" oninput="calcAnt('parche')"><span class="badge">mm</span></div></div></div>
+    <div class="results" id="a-parche-out"></div>
+    <div class="formula" data-latex="W = \frac{c}{2f}\sqrt{\frac{2}{\varepsilon_r+1}} \qquad L = \frac{c}{2f\sqrt{\varepsilon_{\mathrm{eff}}}} - 2\Delta L"></div></div>
+  <div class="card"><div class="card-title">Pasos de diseño</div><div class="prose"><ol><li>Elige el sustrato: εᵣ y espesor h. El FR4 es barato, pero tiene pérdidas a frecuencias altas.</li><li>Calcula W y L con la calculadora.</li><li>Haz el plano de tierra al menos 6h más grande que el parche por cada lado.</li><li>Alimenta con una línea microstrip y un corte (inset) que lleve la impedancia a 50 Ω.</li><li>Simula y ajusta L en décimas de milímetro: la frecuencia es muy sensible a ese valor.</li><li>Fabrica, mide S11 y corrige.</li></ol>
+    <h3>Ten en cuenta</h3><ul><li>Un sustrato grueso y de εᵣ bajo da más ancho de banda y más eficiencia.</li><li>Las tolerancias de fabricación y el εᵣ real desplazan la resonancia.</li></ul></div></div>
+</div>
+<div id="ant-helice" class="tool">
+  <a class="crumb" href="#antenas">← Todas las antenas</a>
+  <div class="page-header"><h1 class="page-title">Antena helicoidal</h1><p class="page-desc">Un hilo enrollado en hélice sobre un plano de tierra. En modo axial radia hacia delante con polarización circular.</p></div>
+  <div class="card"><div class="card-title">Características</div><div class="results"><div class="result-card"><div class="result-label">Ganancia</div><div class="spec-value">10 a 15 dBi</div></div><div class="result-card"><div class="result-label">Impedancia</div><div class="spec-value">≈ 140 Ω</div></div><div class="result-card"><div class="result-label">Polarización</div><div class="spec-value">Circular</div></div><div class="result-card"><div class="result-label">Patrón</div><div class="spec-value">Directivo en el eje de la hélice</div></div><div class="result-card"><div class="result-label">Ancho de banda</div><div class="spec-value">Ancho, cerca de 1.7:1</div></div></div>
+    <div class="prose"><p style="margin-top:1rem">Cuando la circunferencia es cercana a una longitud de onda, la onda viaja por la hélice y radia en el eje (modo axial). El sentido del enrollado define si la polarización es circular derecha o izquierda.</p></div></div>
+  <div class="card"><div class="card-title">Calculadora</div><div class="two-col"><div class="field"><label for="a-helice-f">Frecuencia</label><div class="input-row"><input type="number" id="a-helice-f" value="145" step="any" min="0" oninput="calcAnt('helice')"><span class="badge">MHz</span></div></div><div class="field"><label for="a-helice-n">Número de vueltas N</label><div class="input-row"><input type="number" id="a-helice-n" value="8" step="any" min="0" oninput="calcAnt('helice')"><span class="badge">2 a 20</span></div></div></div>
+    <div class="results" id="a-helice-out"></div>
+    <div class="formula" data-latex="C \approx \lambda \quad S \approx 0.25\lambda \quad G \approx 10.8 + 10\log_{10}\!\left(\frac{C^2 N S}{\lambda^3}\right)"></div></div>
+  <div class="card"><div class="card-title">Pasos de diseño</div><div class="prose"><ol><li>Calcula la circunferencia (≈ λ) y el espaciado entre vueltas (≈ 0.25λ).</li><li>Elige las vueltas N según la ganancia que necesitas.</li><li>Enrolla el hilo sobre un soporte dieléctrico.</li><li>Usa un plano de tierra circular de diámetro mayor o igual que 0.75λ.</li><li>Adapta de ≈ 140 Ω a 50 Ω con un transformador λ/4 o aplanando el primer cuarto de vuelta.</li><li>Haz coincidir el sentido de giro con el de la antena del otro extremo.</li></ol>
+    <h3>Ten en cuenta</h3><ul><li>Contra una antena de polarización lineal se pierden 3 dB.</li><li>Más vueltas dan más ganancia y un haz más estrecho.</li></ul></div></div>
+</div>
+<div id="ant-parabola" class="tool">
+  <a class="crumb" href="#antenas">← Todas las antenas</a>
+  <div class="page-header"><h1 class="page-title">Antena parabólica</h1><p class="page-desc">Un reflector con forma de paraboloide concentra la onda en un alimentador ubicado en su foco.</p></div>
+  <div class="card"><div class="card-title">Características</div><div class="results"><div class="result-card"><div class="result-label">Ganancia</div><div class="spec-value">20 a 40 dBi o más</div></div><div class="result-card"><div class="result-label">Impedancia</div><div class="spec-value">La del alimentador</div></div><div class="result-card"><div class="result-label">Polarización</div><div class="spec-value">La del alimentador</div></div><div class="result-card"><div class="result-label">Patrón</div><div class="spec-value">Haz muy estrecho</div></div><div class="result-card"><div class="result-label">Ancho de banda</div><div class="spec-value">Ancho, limitado por el alimentador</div></div></div>
+    <div class="prose"><p style="margin-top:1rem">El reflector convierte la onda esférica del alimentador en una onda plana. La ganancia crece con el diámetro y con la frecuencia: duplicar el diámetro suma 6 dB.</p></div></div>
+  <div class="card"><div class="card-title">Calculadora</div><div class="two-col"><div class="field"><label for="a-parabola-f">Frecuencia</label><div class="input-row"><input type="number" id="a-parabola-f" value="5800" step="any" min="0" oninput="calcAnt('parabola')"><span class="badge">MHz</span></div></div><div class="field"><label for="a-parabola-d">Diámetro D</label><div class="input-row"><input type="number" id="a-parabola-d" value="0.6" step="any" min="0" oninput="calcAnt('parabola')"><span class="badge">m</span></div></div><div class="field"><label for="a-parabola-eta">Eficiencia η</label><div class="input-row"><input type="number" id="a-parabola-eta" value="55" step="any" min="0" oninput="calcAnt('parabola')"><span class="badge">%</span></div></div><div class="field"><label for="a-parabola-fd">Relación f/D</label><div class="input-row"><input type="number" id="a-parabola-fd" value="0.4" step="any" min="0" oninput="calcAnt('parabola')"><span class="badge">sin unidad</span></div></div></div>
+    <div class="results" id="a-parabola-out"></div>
+    <div class="formula" data-latex="G = \eta\left(\frac{\pi D}{\lambda}\right)^2 \qquad \theta_{3\,\mathrm{dB}} \approx \frac{70\lambda}{D} \qquad \mathrm{prof.} = \frac{D^2}{16F}"></div></div>
+  <div class="card"><div class="card-title">Pasos de diseño</div><div class="prose"><ol><li>Calcula la ganancia que necesitas con el <a href="#radioenlace">presupuesto de enlace</a>.</li><li>Elige el diámetro y calcula la ganancia con la calculadora.</li><li>Escoge f/D entre 0.3 y 0.6 y un alimentador que ilumine el plato con ese ángulo.</li><li>Coloca el centro de fase del alimentador en el foco.</li><li>Apunta con cuidado: un haz estrecho exige alineación fina.</li></ol>
+    <h3>Ten en cuenta</h3><ul><li>La eficiencia típica va de 50 % a 70 %.</li><li>Un haz de pocos grados se desalinea con viento y torres flexibles.</li></ul></div></div>
+</div>
+<div id="filtros" class="tool">
+  <div class="page-header"><h1 class="page-title">Diseño de filtros</h1><p class="page-desc">Un filtro se diseña partiendo de un prototipo paso bajo normalizado y se escala a la frecuencia e impedancia reales. Esta calculadora entrega los valores de un Butterworth LC.</p></div>
+  <div class="card"><div class="card-title">Butterworth paso bajo (escalera LC)</div>
+    <div class="two-col">
+      <div class="field"><label for="pr-n">Orden n</label><div class="input-row"><input type="number" id="pr-n" value="3" step="1" oninput="calcProto()" ><span class="badge">1 a 8</span></div></div>
+      <div class="field"><label for="pr-fc">Frecuencia de corte fc</label><div class="input-row"><input type="number" id="pr-fc" value="100" step="any" oninput="calcProto()" ><span class="badge">MHz</span></div></div>
+    </div>
+    <div class="field"><label for="pr-z0">Impedancia del sistema Z₀</label><div class="input-row"><input type="number" id="pr-z0" value="50" step="any" oninput="calcProto()" ><span class="badge">Ω</span></div></div>
+    <div class="results" id="pr-out"></div>
+    <div class="formula" data-latex="g_k = 2\sin\frac{(2k-1)\pi}{2n} \qquad C_k = \frac{g_k}{Z_0\,\omega_c} \qquad L_k = \frac{g_k Z_0}{\omega_c}"></div>
+    <p class="verdict">La topología empieza con un condensador en paralelo (C₁) y alterna con inductores en serie. Para ver la respuesta, abre <a href="#vna">Sweep de filtros</a>.</p>
+  </div>
+  <div class="card"><div class="card-title">Pasos de diseño</div>
+    <div class="prose"><ol>
+      <li><strong>Fija las especificaciones:</strong> frecuencia de corte o banda, atenuación mínima en la banda de rechazo, rizado permitido e impedancia.</li>
+      <li><strong>Escoge la aproximación</strong> con la tabla de abajo y el orden n que cumpla el rechazo pedido.</li>
+      <li><strong>Obtén los coeficientes g</strong> del prototipo paso bajo normalizado.</li>
+      <li><strong>Escala</strong> en frecuencia e impedancia para calcular L y C reales.</li>
+      <li><strong>Transforma</strong> a paso alto, paso banda o rechazo de banda si hace falta.</li>
+      <li><strong>Implementa y simula</strong> con componentes reales: a partir de unos 500 MHz los parásitos del inductor y el condensador desplazan la respuesta.</li>
+    </ol></div>
+  </div>
+  <div class="card"><div class="card-title">Aproximaciones comunes</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Aproximación</th><th>Característica</th><th>Compromiso</th></tr></thead>
+      <tbody>
+        <tr><td>Butterworth</td><td>Banda de paso máximamente plana</td><td>Caída moderada; necesita más orden para rechazar igual</td></tr>
+        <tr><td>Chebyshev</td><td>Rizado constante en la banda de paso</td><td>Caída más abrupta, peor retardo de grupo</td></tr>
+        <tr><td>Bessel</td><td>Retardo de grupo casi constante</td><td>Caída lenta; conserva la forma de los pulsos</td></tr>
+        <tr><td>Elíptico</td><td>Rizado en paso y en rechazo, con ceros de transmisión</td><td>Mayor selectividad por orden; más difícil de construir</td></tr>
+      </tbody></table></div>
+  </div>
+</div>
+
+<div id="radioenlace" class="tool">
+  <div class="page-header"><h1 class="page-title">Cálculo de radioenlaces</h1><p class="page-desc">Un enlace cierra cuando la potencia que llega al receptor supera su sensibilidad con margen suficiente. Calcula el presupuesto y revisa el despeje de la primera zona de Fresnel.</p></div>
+  <div class="card"><div class="card-title">Presupuesto de enlace</div>
+    <div class="two-col">
+      <div class="field"><label for="lk-f">Frecuencia</label><div class="input-row"><input type="number" id="lk-f" value="5800" step="1" oninput="calcLink()" ><span class="badge">MHz</span></div></div>
+      <div class="field"><label for="lk-d">Distancia</label><div class="input-row"><input type="number" id="lk-d" value="10" step="0.1" oninput="calcLink()" ><span class="badge">km</span></div></div>
+      <div class="field"><label for="lk-ptx">Potencia del transmisor</label><div class="input-row"><input type="number" id="lk-ptx" value="23" step="0.5" oninput="calcLink()" ><span class="badge">dBm</span></div></div>
+      <div class="field"><label for="lk-loss">Pérdidas de cables y conectores</label><div class="input-row"><input type="number" id="lk-loss" value="3" step="0.5" oninput="calcLink()" ><span class="badge">dB</span></div></div>
+      <div class="field"><label for="lk-gtx">Ganancia de antena Tx</label><div class="input-row"><input type="number" id="lk-gtx" value="23" step="0.5" oninput="calcLink()" ><span class="badge">dBi</span></div></div>
+      <div class="field"><label for="lk-grx">Ganancia de antena Rx</label><div class="input-row"><input type="number" id="lk-grx" value="23" step="0.5" oninput="calcLink()" ><span class="badge">dBi</span></div></div>
+      <div class="field"><label for="lk-sens">Sensibilidad del receptor</label><div class="input-row"><input type="number" id="lk-sens" value="-90" step="1" oninput="calcLink()" ><span class="badge">dBm</span></div></div>
+    </div>
+    <div class="results"><div class="result-card"><div class="result-label">Pérdida en espacio libre</div><div class="result-value" id="lk-fspl">—</div></div><div class="result-card"><div class="result-label">PIRE</div><div class="result-value" id="lk-eirp">—</div></div><div class="result-card"><div class="result-label">Potencia recibida</div><div class="result-value" id="lk-prx">—</div></div><div class="result-card"><div class="result-label">Margen de enlace</div><div class="result-value" id="lk-margin">—</div></div><div class="result-card"><div class="result-label">Radio Fresnel 1ª zona</div><div class="result-value" id="lk-fr">—</div></div><div class="result-card"><div class="result-label">Despeje mínimo (60 %)</div><div class="result-value" id="lk-fr60">—</div></div></div>
+    <p class="verdict" id="lk-verdict"></p>
+    <div class="formula" data-latex="\mathrm{FSPL} = 92.45 + 20\log_{10}d_{km} + 20\log_{10}f_{GHz} \qquad P_{rx} = P_{tx} - L + G_{tx} - \mathrm{FSPL} + G_{rx}"></div>
+    <div class="formula" data-latex="r_1 = 8.66\sqrt{\frac{D_{km}}{f_{GHz}}}\ \mathrm{m} \quad (\text{en el punto medio})"></div>
+  </div>
+  <div class="card"><div class="card-title">Cómo planificar el enlace</div>
+    <div class="prose"><ol>
+      <li><strong>Verifica la línea de vista</strong> con un perfil de terreno entre ambos puntos.</li>
+      <li><strong>Despeja el 60 % de la primera zona de Fresnel</strong> sobre el obstáculo más alto. Con menos despeje, el enlace pierde potencia aunque haya línea de vista.</li>
+      <li><strong>Calcula el presupuesto</strong> y busca un margen de 10 a 20 dB para cubrir lluvia, desvanecimiento y envejecimiento de equipos.</li>
+      <li><strong>Ajusta:</strong> si el margen es corto, sube la ganancia de antena (cada 3 dB duplican la potencia), baja pérdidas en cables o acorta el vano.</li>
+    </ol></div>
+  </div>
+</div>
+<div id="vswr" class="tool">
+      <div class="page-header">
+        <div class="page-title">VSWR / Return Loss</div>
+        <div class="page-desc">Convierte entre VSWR, Return Loss y coeficiente de reflexión</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">VSWR → parámetros de reflexión</div>
+        <div class="field">
+          <label>VSWR</label>
+          <div class="input-row">
+            <input type="number" id="vswr-in" value="1.5" min="1" step="0.01" oninput="calcVSWR()">
+          </div>
+        </div>
+        <div class="results" id="vswr-results">
+          <div class="result-card"><div class="result-label">Return Loss</div><div class="result-value" id="rl-out">—<span class="result-unit">dB</span></div></div>
+          <div class="result-card"><div class="result-label">|Γ| Rho</div><div class="result-value" id="rho-out">—</div></div>
+          <div class="result-card"><div class="result-label">Potencia reflejada</div><div class="result-value" id="prefl-out">—<span class="result-unit">%</span></div></div>
+          <div class="result-card"><div class="result-label">Mismatch Loss</div><div class="result-value" id="ml-out">—<span class="result-unit">dB</span></div></div>
+        </div>
+        <div class="formula" data-latex="RL_{\mathrm{dB}} = -20\log_{10}\!\left(\frac{\mathrm{VSWR}-1}{\mathrm{VSWR}+1}\right) \qquad \Gamma = \frac{\mathrm{VSWR}-1}{\mathrm{VSWR}+1}"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Return Loss → VSWR</div>
+        <div class="field">
+          <label>Return Loss</label>
+          <div class="input-row">
+            <input type="number" id="rl-in" value="14" min="0" step="0.1" oninput="calcRL()">
+            <span class="badge">dB</span>
+          </div>
+        </div>
+        <div class="results">
+          <div class="result-card"><div class="result-label">VSWR</div><div class="result-value" id="vswr-out">—</div></div>
+          <div class="result-card"><div class="result-label">|Γ| Rho</div><div class="result-value" id="rho2-out">—</div></div>
+        </div>
+        <div class="formula" data-latex="|\Gamma| = 10^{-RL/20} \qquad \mathrm{VSWR} = \frac{1+|\Gamma|}{1-|\Gamma|}"></div>
+      </div>
+    </div>
+
+    <!-- dB / Potencia -->
+    <div id="db" class="tool">
+      <div class="page-header">
+        <div class="page-title">dB / Potencia</div>
+        <div class="page-desc">Convierte entre decibelios, factores lineales y unidades de potencia</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">dB ↔ factor lineal</div>
+        <div class="field">
+          <label>Valor en dB</label>
+          <div class="input-row">
+            <input type="number" id="db-in" value="3" step="0.1" oninput="calcDB()">
+            <span class="badge">dB</span>
+          </div>
+        </div>
+        <div class="results">
+          <div class="result-card"><div class="result-label">Factor potencia</div><div class="result-value" id="lin-out">—</div></div>
+          <div class="result-card"><div class="result-label">Factor voltaje</div><div class="result-value" id="volt-out">—</div></div>
+        </div>
+        <div class="formula" data-latex="A_{\mathrm{pot}} = 10^{\,dB/10} \qquad A_{\mathrm{volt}} = 10^{\,dB/20}"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">dBm ↔ mW / W</div>
+        <div class="field">
+          <label>Potencia</label>
+          <div class="input-row">
+            <input type="number" id="dbm-in" value="20" step="0.1" oninput="calcDBm()">
+            <span class="badge">dBm</span>
+          </div>
+        </div>
+        <div class="results">
+          <div class="result-card"><div class="result-label">mW</div><div class="result-value" id="mw-out">—</div></div>
+          <div class="result-card"><div class="result-label">W</div><div class="result-value" id="w-out">—</div></div>
+          <div class="result-card"><div class="result-label">dBW</div><div class="result-value" id="dbw-out">—<span class="result-unit">dBW</span></div></div>
+          <div class="result-card"><div class="result-label">μV en 50Ω</div><div class="result-value" id="uv-out">—<span class="result-unit">μV</span></div></div>
+        </div>
+        <div class="formula" data-latex="P_{\mathrm{dBm}} = 10\log_{10}(P_{\mathrm{mW}}) \qquad V = \sqrt{P \cdot R}"></div>
+      </div>
+    </div>
+
+    <!-- Impedancia -->
+    <div id="imp" class="tool">
+      <div class="page-header">
+        <div class="page-title">Impedancia compleja</div>
+        <div class="page-desc">Calcula reflexión a partir de Z = R + jX</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Parámetros de entrada</div>
+        <div class="two-col">
+          <div class="field">
+            <label>Parte real R</label>
+            <div class="input-row">
+              <input type="number" id="zr-in" value="75" step="1" oninput="calcZ()">
+              <span class="badge">Ω</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Parte imaginaria X</label>
+            <div class="input-row">
+              <input type="number" id="zx-in" value="0" step="1" oninput="calcZ()">
+              <span class="badge">Ω</span>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Impedancia de referencia Z₀</label>
+          <div class="input-row">
+            <input type="number" id="z0-in" value="50" min="1" step="1" oninput="calcZ()" style="width:120px">
+            <span class="badge">Ω</span>
+          </div>
+        </div>
+        <div class="results">
+          <div class="result-card"><div class="result-label">|Γ|</div><div class="result-value" id="gz-out">—</div></div>
+          <div class="result-card"><div class="result-label">∠Γ</div><div class="result-value" id="gangle-out">—<span class="result-unit">°</span></div></div>
+          <div class="result-card"><div class="result-label">VSWR</div><div class="result-value" id="vswr-z-out">—</div></div>
+          <div class="result-card"><div class="result-label">Return Loss</div><div class="result-value" id="rl-z-out">—<span class="result-unit">dB</span></div></div>
+        </div>
+        <div class="formula" data-latex="\Gamma = \frac{Z - Z_0}{Z + Z_0} \qquad \mathrm{VSWR} = \frac{1 + |\Gamma|}{1 - |\Gamma|}"></div>
+      </div>
+    </div>
+
+    <!-- Longitud de onda -->
+    <div id="freq" class="tool">
+      <div class="page-header">
+        <div class="page-title">Longitud de onda</div>
+        <div class="page-desc">Frecuencia → λ, λ/2, λ/4 y período</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Parámetros</div>
+        <div class="two-col">
+          <div class="field">
+            <label>Frecuencia</label>
+            <div class="input-row">
+              <input type="number" id="freq-in" value="2400" min="0.001" step="1" oninput="calcFreq()" style="width:130px">
+              <select id="freq-unit" onchange="calcFreq()">
+                <option value="MHz" selected>MHz</option>
+                <option value="GHz">GHz</option>
+                <option value="kHz">kHz</option>
+                <option value="Hz">Hz</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label>Constante dieléctrica εᵣ</label>
+            <div class="input-row">
+              <input type="number" id="er-in" value="1" min="0.1" step="0.01" oninput="calcFreq()" style="width:120px">
+              <span class="badge">1 = vacío</span>
+            </div>
+          </div>
+        </div>
+        <div class="results">
+          <div class="result-card"><div class="result-label">λ (lambda)</div><div class="result-value" id="lambda-out">—</div></div>
+          <div class="result-card"><div class="result-label">λ/2</div><div class="result-value" id="lambda2-out">—</div></div>
+          <div class="result-card"><div class="result-label">λ/4</div><div class="result-value" id="lambda4-out">—</div></div>
+          <div class="result-card"><div class="result-label">Período</div><div class="result-value" id="period-out">—</div></div>
+        </div>
+        <div class="formula" data-latex="\lambda = \frac{c}{f\sqrt{\varepsilon_r}} \qquad c = 299\,792\,458\ \mathrm{m/s}"></div>
+      </div>
+    </div>
+
+    <!-- Recursos -->
+    <div id="noise" class="tool">
+      <div class="page-header">
+        <div class="page-title">Ruido y cascada de Friis</div>
+        <div class="page-desc">Figura de ruido, temperatura equivalente y ruido total de una cadena receptora.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Figura de ruido → factor y temperatura</div>
+        <div class="field">
+          <label>Noise Figure (NF)</label>
+          <div class="input-row">
+            <input type="number" id="nf-in" value="3" min="0" step="0.1" oninput="calcNoise()">
+            <span class="badge">dB</span>
+          </div>
+        </div>
+        <div class="results">
+          <div class="result-card"><div class="result-label">Noise Factor (F)</div><div class="result-value" id="nfactor-out">—</div></div>
+          <div class="result-card"><div class="result-label">Temp. equivalente</div><div class="result-value" id="teq-out">—<span class="result-unit">K</span></div></div>
+        </div>
+        <div class="formula" data-latex="F = 10^{NF/10} \qquad T_{\mathrm{eq}} = 290\,(F - 1)\ \mathrm{K}"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Cascada de Friis — 2 etapas</div>
+        <div class="two-col">
+          <div>
+            <div class="field">
+              <label>Etapa 1 — NF</label>
+              <div class="input-row">
+                <input type="number" id="nf1" value="3" step="0.1" oninput="calcFriis()" style="width:120px">
+                <span class="badge">dB</span>
+              </div>
+            </div>
+            <div class="field">
+              <label>Etapa 1 — Ganancia</label>
+              <div class="input-row">
+                <input type="number" id="g1" value="15" step="0.1" oninput="calcFriis()" style="width:120px">
+                <span class="badge">dB</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="field">
+              <label>Etapa 2 — NF</label>
+              <div class="input-row">
+                <input type="number" id="nf2" value="8" step="0.1" oninput="calcFriis()" style="width:120px">
+                <span class="badge">dB</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="results">
+          <div class="result-card"><div class="result-label">NF total</div><div class="result-value" id="nf-total-out">—<span class="result-unit">dB</span></div></div>
+          <div class="result-card"><div class="result-label">F total</div><div class="result-value" id="f-total-out">—</div></div>
+        </div>
+        <div class="formula" data-latex="F_{\mathrm{tot}} = F_1 + \frac{F_2 - 1}{G_1}"></div>
+      </div>
+    </div>
+
+    <div id="vna" class="tool">
+      <div class="page-header">
+        <div class="page-title">Sweep / Filtros RF</div>
+        <div class="page-desc">Modelo de 2 puertos: |S₂₁|, |S₁₁| (return loss) y VSWR vs frecuencia. En RLC se usa la red serie exacta; en filtros ideales, potencia reflejada coherente con la transmisión.</div>
+      </div>
+
+      <div class="card vna-card">
+        <div class="card-title">Barrido y tipo de filtro</div>
+
+        <div class="two-col">
+          <div class="field">
+            <label>Frecuencia inicial</label>
+            <div class="input-row">
+              <input type="number" id="fstart" value="0.5" min="0.001" step="0.1" oninput="generateSweep()">
+              <span class="badge">GHz</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Frecuencia final</label>
+            <div class="input-row">
+              <input type="number" id="fstop" value="4" min="0.001" step="0.1" oninput="generateSweep()">
+              <span class="badge">GHz</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Puntos</label>
+            <div class="input-row">
+              <input type="number" id="points" value="401" min="51" max="2001" step="50" oninput="generateSweep()">
+            </div>
+          </div>
+          <div class="field">
+            <label>Tipo de filtro</label>
+            <select id="filter-type" onchange="onFilterTypeChange(); generateSweep()">
+              <option value="lpf">Paso bajo — Butterworth</option>
+              <option value="hpf">Paso alto — Butterworth</option>
+              <option value="bpf">Paso banda</option>
+              <option value="bsf">Rechazo de banda (notch)</option>
+              <option value="rlc">RLC serie (lumped)</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="params-bw" class="two-col vna-param-block">
+          <div class="field">
+            <label>Frecuencia central f₀</label>
+            <div class="input-row">
+              <input type="number" id="fc-bw" value="2" min="0.001" step="0.05" oninput="generateSweep()">
+              <span class="badge">GHz</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Ancho de banda (3 dB)</label>
+            <div class="input-row">
+              <input type="number" id="bw" value="0.4" min="0.001" step="0.05" oninput="generateSweep()">
+              <span class="badge">GHz</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="params-order" class="two-col vna-param-block">
+          <div class="field">
+            <label>Frecuencia de corte f<sub>c</sub></label>
+            <div class="input-row">
+              <input type="number" id="fc" value="2" min="0.001" step="0.05" oninput="generateSweep()">
+              <span class="badge">GHz</span>
+            </div>
+          </div>
+          <div class="field" id="field-order">
+            <label>Orden n (Butterworth)</label>
+            <div class="input-row">
+              <input type="number" id="order" value="3" min="1" max="8" step="1" oninput="generateSweep()">
+            </div>
+          </div>
+        </div>
+
+        <div class="field vna-param-block" id="field-il0">
+          <label>Pérdida de inserción en paso (IL₀)</label>
+          <div class="input-row">
+            <input type="number" id="il0" value="0" min="0" max="10" step="0.1" oninput="generateSweep()" style="width:120px">
+            <span class="badge">dB</span>
+          </div>
+        </div>
+
+        <div id="params-rlc" class="two-col vna-param-block" hidden>
+          <div class="field">
+            <label>Resistencia R</label>
+            <div class="input-row">
+              <input type="number" id="r-vna" value="5" min="0.01" step="0.5" oninput="generateSweep()">
+              <span class="badge">Ω</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Inductancia L</label>
+            <div class="input-row">
+              <input type="number" id="l-vna" value="2" min="0.001" step="0.1" oninput="generateSweep()">
+              <span class="badge">nH</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Capacitancia C</label>
+            <div class="input-row">
+              <input type="number" id="c-vna" value="2" min="0.001" step="0.1" oninput="generateSweep()">
+              <span class="badge">pF</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Impedancia de referencia Z₀</label>
+            <div class="input-row">
+              <input type="number" id="z0-vna" value="50" min="1" step="1" oninput="generateSweep()">
+              <span class="badge">Ω</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="results vna-readouts">
+          <div class="result-card"><div class="result-label">f₀ / f<sub>c</sub></div><div class="result-value" id="vna-f0-out">—<span class="result-unit">GHz</span></div></div>
+          <div class="result-card"><div class="result-label">|S₂₁| @ marcador</div><div class="result-value" id="vna-s21-mark">—<span class="result-unit">dB</span></div></div>
+          <div class="result-card"><div class="result-label">Return loss @ marcador</div><div class="result-value" id="vna-rl-mark">—<span class="result-unit">dB</span></div></div>
+          <div class="result-card"><div class="result-label">VSWR @ marcador</div><div class="result-value" id="vna-vswr-mark">—</div></div>
+          <div class="result-card"><div class="result-label">VSWR máx (barrido)</div><div class="result-value" id="vna-vswr-max">—</div></div>
+          <div class="result-card"><div class="result-label">|Γ| @ marcador</div><div class="result-value" id="vna-rho-mark">—</div></div>
+        </div>
+
+        <div class="formula" id="vna-formula"></div>
+
+        <div class="vna-chart-wrap">
+          <div class="vna-chart-label">Parámetros S en dB</div>
+          <canvas id="vnaChart" aria-label="S21 y S11 en dB vs frecuencia"></canvas>
+          <div class="vna-legend">
+            <span class="vna-legend-line s21"></span> |S₂₁|
+            <span class="vna-legend-line s11"></span> |S₁₁| / return loss
+            <span class="vna-legend-mark"></span> f₀ / f<sub>c</sub>
+          </div>
+        </div>
+        <div class="vna-chart-wrap vna-chart-wrap--secondary">
+          <div class="vna-chart-label">VSWR</div>
+          <canvas id="vnaChartVswr" aria-label="VSWR vs frecuencia"></canvas>
+        </div>
+      </div>
+    </div>
+
+<div id="biblioteca" class="tool">
+  <div class="page-header"><h1 class="page-title">Biblioteca de lecturas</h1><p class="page-desc">Libros, notas de aplicación, normas y artículos para profundizar en cada tema.</p></div>
+  <div class="card">
+    <div class="lib-tools">
+      <input type="search" id="lib-q" placeholder="Buscar por título, autor o palabra clave" aria-label="Buscar recursos" oninput="renderLibrary()">
+      <select id="lib-topic" aria-label="Filtrar por tema" onchange="renderLibrary()"></select>
+    </div>
+    <div class="lib-count" id="lib-count"></div>
+    <div id="lib-list"></div>
+  </div>
+</div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script src="recursos.js"></script>
+<script src="scripts.js"></script>
+</body>
+</html>
