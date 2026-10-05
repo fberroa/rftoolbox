@@ -15,7 +15,7 @@
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
   </button>
   <a class="brand" href="#home"><span class="logo-badge">RF</span>RF Toolbox</a>
-  <span class="topbar-note">Hecho por UNAPEC IEEE Students Branch.</span>
+  <span class="topbar-note">Creado por estudiantes, para estudiantes.</span>
 </header>
 <div class="scrim" id="scrim"></div>
 <div class="shell">
@@ -601,9 +601,14 @@
     <div id="lib-list"></div>
   </div>
 </div>
+    <footer class="site-footer">
+      <p>© <span id="year">2026</span> RF Toolbox. Todos los derechos reservados.</p>
+      <p class="footer-note">Los libros y documentos enlazados en la biblioteca pertenecen a sus autores y editoriales.</p>
+    </footer>
   </main>
 </div>
-
+  
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
 <script src="recursos.js"></script>
 <script src="scripts.js"></script>
