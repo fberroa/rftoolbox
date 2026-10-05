@@ -22,4 +22,30 @@ url: "https://drive.google.com/file/d/1A77NhpwN8WpClWV0PWV7cG2SwAyG1lxE/view?usp
 descripcion: "Diagrama de Smith para impendancias."
 },
 
+{
+titulo: "Antenna Theory: Analysis and design 4th Edition",
+autor: "Constantine A. Balanis",
+tipo: "Libro",                  // Libro, Artículo, Nota de aplicación, Norma, Hoja de datos...
+tema: "Antenas",  // Antenas, Filtros, Radioenlaces... (alimenta el filtro)
+url: "https://drive.google.com/file/d/1i46UAHZWOmrmY7TG73GTMVVKllEq8mRt/view?usp=drive_link",      // archivo en tu sitio o enlace externo
+descripcion: "Teoría de Antenas por Constantine A. Balanis (Wiley)."
+},
+
+{
+titulo: "Microstrip Filters For RF/Microwave Applications",
+autor: "Jia-Sheng Hong & M. J. Lancaster",
+tipo: "Libro",                  // Libro, Artículo, Nota de aplicación, Norma, Hoja de datos...
+tema: "Filtros",  // Antenas, Filtros, Radioenlaces... (alimenta el filtro)
+url: "https://drive.google.com/file/d/1BctpVSoWku23fV95Ufxr0q_5ryXimv_R/view?usp=drive_link",      // archivo en tu sitio o enlace externo
+descripcion: "Filtros en Microstrip para aplicaciones de RF y Microondas."
+},
+
+{
+titulo: "Modern RF and Microwave Filter Design (Artech House)",
+autor: "Protap Pramanick & Prakash Bhartia",
+tipo: "Libro",                  // Libro, Artículo, Nota de aplicación, Norma, Hoja de datos...
+tema: "Filtros",  // Antenas, Filtros, Radioenlaces... (alimenta el filtro)
+url: "https://drive.google.com/file/d/1HoLA55MlPibmhq-EVlwYZJEtlDCnQxyb/view?usp=drive_link",      // archivo en tu sitio o enlace externo
+descripcion: "Diseño de Filtros para RF y Microondas."
+},  
 ];
