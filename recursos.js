@@ -45,7 +45,7 @@ titulo: "Modern RF and Microwave Filter Design (Artech House)",
 autor: "Protap Pramanick & Prakash Bhartia",
 tipo: "Libro",                  // Libro, Artículo, Nota de aplicación, Norma, Hoja de datos...
 tema: "Filtros",  // Antenas, Filtros, Radioenlaces... (alimenta el filtro)
-url: "https://drive.google.com/file/d/1HoLA55MlPibmhq-EVlwYZJEtlDCnQxyb/view?usp=drive_link",      // archivo en tu sitio o enlace externo
+url: "https://drive.google.com/file/d/1D8hr0JvdK2odzKYgsR4ynvAV7z6JcOY5/view?usp=drive_link",      // archivo en tu sitio o enlace externo
 descripcion: "Diseño de Filtros para RF y Microondas."
 },  
 ];
