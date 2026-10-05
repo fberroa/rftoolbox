@@ -136,6 +136,17 @@ td:first-child{color:var(--text);font-weight:500}
 .empty{padding:2rem 1rem;border:1px dashed var(--border);border-radius:var(--radius);color:var(--text2);font-size:14px;text-align:center}
 code{font:13px var(--mono);background:var(--bg3);padding:1px 6px;border-radius:4px;color:var(--text)}
 
+.site-footer {
+  margin-top: 2.5rem;
+  padding: 1.25rem 0 1rem;
+  border-top: 1px solid rgba(128, 128, 128, .25);
+  font-size: .85rem;
+  text-align: center;
+  opacity: .75;
+}
+.site-footer p { margin: 0 0 .25rem; }
+.footer-note { font-size: .8rem; }
+
 /* ── Responsive ── */
 @media (max-width:900px){
   .shell,body.nav-collapsed .shell{grid-template-columns:minmax(0,1fr)}
