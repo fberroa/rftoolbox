@@ -18,7 +18,7 @@ titulo: "Smith Chart",
 autor: "Tōsaku Mizuhashi, Amiel R. Volpert and Phillip H. Smith",
 tipo: "Diagrama",                  // Libro, Artículo, Nota de aplicación, Norma, Hoja de datos...
 tema: "Impedancias",  // Antenas, Filtros, Radioenlaces... (alimenta el filtro)
-url: "SmithChart.pdf",      // archivo en tu sitio o enlace externo
+url: "https://unapecedu-my.sharepoint.com/:b:/g/personal/f_berroa1_unapec_edu_do/IQA-iH6duXpzTaE2pio2rRmYAQeqcUw0TX7xoACUXruspzc?e=welVMN",      // archivo en tu sitio o enlace externo
 descripcion: "Diagrama de Smith para impendancias."
 },
 
